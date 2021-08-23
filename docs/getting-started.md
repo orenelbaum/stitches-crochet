@@ -2,8 +2,8 @@
 
 Keep in mind that the first two steps are temporary and are probably going to be replaced soon by an npm package.
 
-- Create a library called `crochet-lib` (or whatever name you want) somwhere in your code.
-- Copy the files `crochet.tsx` and `util-library.ts` from `src/lib` in this repo into the library you just created.
+- Create a folder called `crochet-lib` (or whatever name you want) somwhere in your code.
+- Copy the files [`crochet.tsx`](https://github.com/orenelbaum/stitches-crochet/tree/master/src/lib/crochet.tsx) and [`util-library.ts`](https://github.com/orenelbaum/stitches-crochet/tree/master/src/lib/util-library.ts) from `src/lib` in this repo into the library you just created.
 - Create another file somewhere under your `src` folder and call it `crochet-configured.ts` (or whatever name you want). This is where we config crochet and export everything to be used in other files.
 
 This is the file from the [example](https://github.com/orenelbaum/stitches-crochet/tree/master/src/example):
