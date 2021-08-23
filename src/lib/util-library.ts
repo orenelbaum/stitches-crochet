@@ -58,7 +58,7 @@ const displayUtils = {
 	
 	inline: (value: boolean) => value ? { display: "inline" } : {},
 	
-	hidden	: (value: boolean) => value ? { display: "none" } : {}
+	hidden: (value: boolean) => value ? { display: "none" } : {}
 }
 
 
@@ -104,7 +104,7 @@ export const flexUtils = {
 		return styles
 	},
 	
-	inlineFlex	: (value: boolean) => value ? { display: "inline-flex" } as const : {},
+	inlineFlex: (value: boolean) => value ? { display: "inline-flex" } as const : {},
 
 	row: (value: boolean) => (
 		value
