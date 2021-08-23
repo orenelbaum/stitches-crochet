@@ -52,7 +52,7 @@ Right now the way to use this wrapper is by copy-pasting two files into your pro
 - Documentation website
 
 ### Probably at some point:
-- Testing
+- Automated testing
 - Util purging (can be used for every Stitches project)
 
 ### Maybe at some point:
