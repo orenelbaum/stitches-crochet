@@ -29,7 +29,7 @@ Have a look at the [docs](https://github.com/orenelbaum/stitches-crochet/tree/ma
 
 This is very early in development but it's already useable since right now it's only a thin wrapper around Stitches and some utils. The main problem right now is that there's no tree shaking or purging. Tree shaking for "styleables primitives" (Div, Button, etc.) is going to come very soon. Purging of Stitches Utils is something that has no solution yet, this problem is not specific to this wrapper, however I'm planning to create a babel plugin for that. For now you can manually comment them off if you want to. This package also has not been throughly tested.
 
-Right now the way to use this wrapper is by copy-pasting two files into your project. It's not on npm yet because it's a bit challenging to make this work as an npm package and not make typescript crush. This is probably going to change soon, it will either be or npm or there will be a CLI.
+Right now the way to use this wrapper is by copy-pasting two files into your project. It's not on npm yet because it's a bit challenging to make this work as an npm package and not make typescript crush. This is probably going to change soon, it will either be on npm or there will be a CLI.
 
 
 
