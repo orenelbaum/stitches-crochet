@@ -86,7 +86,7 @@ export function configureCrochet<
 	
 			if (typeof props.variant === "string")
 				return (
-					<StyledPrimitive {...props.props as HtmlProps} variant={props.variant}>
+					<StyledPrimitive {...props.props as HtmlProps} main={props.variant}>
 						{props.children}
 					</StyledPrimitive>
 				)
