@@ -59,7 +59,7 @@ export const App: FC = () => {
 				category which is not the main one (in this case size).
 			</p>
 			<P variants={variants} size="large">
-				{`<P variants={variants} variant="red">`}
+				{`<P variants={variants} size="large">`}
 			</P>
 
 			<p>
