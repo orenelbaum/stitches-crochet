@@ -36,7 +36,6 @@ Right now the way to use this wrapper is by copy-pasting two files into your pro
 ## Roadmap:
 
 ### Very soon:
-- Documentation
 - A lot more utils
 - Tree shaking for styleable primitives (Div, Button, etc.)
 - More styleable primitives (support for more HTML elements, 38 common elements are supported right now)
