@@ -1,68 +1,167 @@
 # stitches-crochet
-Stitches Crochet is a wrapper around [Stitches](https://stitches.dev/) (CSS in JS library) and a library of tailwind inspired Stitches utils.
-The wrapper and the utils can be used individually.
-The wrapper is React only but the utils can be used with every Stitches project. A Solid version of the wrapper is probably coming soon.
 
-The wrapper lets use define components with stitches CSS rules as props. You can still pass props into the underlying element through the `props` prop.
+Stitches Crochet is a set of general utilities for [Stitches](https://stitches.dev/) (not to be confused with [Stitches utils](https://stitches.dev/docs/utils)).
 
-The utils are general styling utilities which are heavily insipred by tailwind. This makes this wrapper look a little bit like [WindiCSS](https://windicss.org/) (a dynamic layer on top of tailwind using a compiler).
+Stitches Crochet is currently React only. A SolidJS version is coming soon.
 
-The way you would normally use Stitches without the wrapper is with the `styled` function:
-```jsx
-const ButtonWithPadding = styled('button', { paddingTop: "2rem" });
+Currently Stitches Crochet has 2 utilities:
 
-<ButtonWithPadding onClick={doStuff}>
-    Hi I'm a button with paddingTop!
-</ButtonWithPadding>
+- **Styleable Components**
+
+  Stitches Crochet provides a function that creates styleable components.
+  Styleable components are similar to styled components, however their API is a little bit different.
+
+  Like styled components, styleable components can have base styles. However, the way you customize a styled comoponent is by choosing variants (defined in the base styles) and adding more styles through the `CSS` prop.
+
+  The way you customize a styleable component is by adding the style rules directly as props to the component, and with the `boolVariants` prop which conditionally applies sets of styles.
+
+	Example:
+
+  ```tsx
+	const StyleableComp = createStyleableComponent(Comp, { color: "Blue" })
+
+	<StyleableComp
+		props={{ text: "Wrapped React component" }}
+		background="Red"
+		margin="20px"
+		boolVariants={[
+			[someBool, css({ padding: "10px" }), styled("a", { fontWeight: "bold" }) ],
+			[!someBool, { background: "Yellow" }]
+		]}
+	/>
+  ```
+
+- **Styled Primitives**
+
+  `StyledPrimitives` is a proxy that lets you access automatically created styleable component wrappers for HTML elements.
+
+	Example (using `C` as alias to `StyledPrimitives`):
+
+	```tsx
+	<C.div color="YellowGreen">
+		Styleable primitive
+	</C.div>
+	```
+
+[See usage example](https://github.com/orenelbaum/stitches-crochet-example)
+
+This project is in early development. Don't use it in production.
+
+## Installation and getting started
+
+Install stitches Crochet with
+
+```bash
+npm i stitches-crochet
 ```
 
-The way you would achieve the same result with Stitches Crochet is:
+Replace `createStitches` with `configureCrochet`. It takes the same argument - a Stitches config, and returns the same object with two added properties: `createStyleableComponent` and `StyleablePrimitives`.
+
+- Use `createStyleableComponent` to create custom styleable components.
+- Use `StyleablePrimitives` for quick access to styleable HTML elements with no base styles.
+
+It's recommended to alias `StyleablePrimitives` with a one letter name. You can use `C` for crochet (note that it needs to be a capital letter so you can use it inside a JSX tag, for example `<C.div>`).
+
+## API
+
+### `configureCrochet`
+
+```js
+const { createStyleableComponent, StyleablePrimitives, ...stitches } = configureCrochet(stitchesConfig)
+```
+
+This function is the same as createStitches, except the returned object also has `createStyleableComponent` and `StyleablePrimitives`.
+
+### `createStyleableComponent`
+
+```js
+const styleableComponent = createStyleableComponent(componentOrElement, ...baseStyles)
+```
+
+Creates a new styleable component.
+
+Arguments:
+
+- `componentOrElement` - An HTML element or a React component to be wrapped with a styleable component.
+
+- `baseStyles` (optional) - A collection of style objects, styled components, CSS components, functions returned from CSS components, and class names.
+
+Returns: a styleable component
+
+### Styleable components
+
 ```tsx
-import { Button } from "src/styling/crochet";
-
-<Button props={{ onClick: doStuff }} pt="2rem">
-    I'm also a button with paddingTop.
-</Button>
+<MyStyleableComponent
+	props={underlyingComponentProps}
+	{...styleRules}
+	boolVariants={arrayOfBoolVariants}
+>
+	{ someChildren }
+</MyStyleableComponent>
 ```
 
-Have a look at the [docs](https://github.com/orenelbaum/stitches-crochet/tree/master/docs) or at the [example](https://github.com/orenelbaum/stitches-crochet/tree/master/src/example) for more in depth usage.
+A wrapper around an HTML element or a React component, similar to styled components except the API is a bit different. Styleable components give you a more concise way to add one off customizations.
 
-This is very early in development but it's already useable since right now it's only a thin wrapper around Stitches and some utils. The main problem right now is that there's no tree shaking or purging. Tree shaking for "styleables primitives" (Div, Button, etc.) is going to come very soon. Purging of Stitches Utils is something that has no solution yet, this problem is not specific to this wrapper, however I'm planning to create a babel plugin for that. For now you can manually comment them off if you want to. This package also has not been throughly tested.
+Props:
 
-Right now the way to use this wrapper is by copy-pasting two files into your project. It's not on npm yet because it's a bit challenging to make this work as an npm package and not make typescript crush. This is probably going to change soon, it will either be on npm or there will be a CLI.
+- `props`: Props to be passed to the underlying component. This field is optional if the underlying component doesn't have any required props.
+
+- `boolVariants` (optional): An array of boolean variants (a little bit different than normal Stitches boolean variants). Each boolean variants is itself an array in which the first value is a boolean expression (which is the condition for the variant to be applied) followed by a collection of style objects, other styleable components, styled components, CSS components, functions returned from CSS components, and class names.
+
+  An example of a boolean variant:
+
+  ``` js
+  [someCondition, { color: "blue" }, css({ background: "green" })]
+  ```
+
+  In this example if `someCondition` is true, `color: Blue` and `background: Green` will be applied to the component.
+
+  An example of `boolVariants` prop:
+
+  ``` js
+  [[someCondition, { color: "blue" }, css({ background: "green" })]]
+  ```
+
+  This is the same as the boolean variant example, except it's wrapped in an array.
+
+- Any CSS property or util defined in your Stitches config is a valid prop.
+  
+  For example:
+
+  ```jsx
+  <MyStyleableComponent
+	  color="Black"
+	  p="3px"
+  >
+	  { someChildren }
+  </MyStyleableComponent>
+  ```
+
+  The `p` prop represents a util in this example.
 
 
+### `StyledPrimitives`
+
+  A proxy that lets you access automatically created styleable component wrappers for HTML elements with no base styles.
+  It's recommended to alias `StyledPrimitives` as one letter, in this example I'm going to use the alias `C` which stands for crochet.
+
+  An example:
+
+  ```tsx
+	<C.div color="YellowGreen">
+		Styleable primitive
+	</C.div>
+  ```
+	
+  You can access any HTML element this way.
 
 ## Roadmap:
 
-### Very soon:
-- A lot more utils
-- Tree shaking for styleable primitives (Div, Button, etc.)
-- More styleable primitives (support for more HTML elements, 38 common elements are supported right now)
 - Better types
+- A SolidJS version
+- Add some missing features to styleable components
+- More utility functions
 
-### Probably soon:
-- An npm package and/or a CLI
-- Even more utils
-- Better typescript support for the 'as' prop
-- A SolidJS version of the wrapper (the utils can already be used with Solid)
-- All HTML elements as styled primitives
-- An option to make it be even more Tailwind like by default
-- Documentation website
 
-### Probably at some point:
-- Automated testing
-- Util purging (can be used for every Stitches project)
-
-### Maybe at some point:
-- An API similar to Styled System
-- An integration with some headless UI library
-- Some random Stitches helpers
-- Some random CSS in JS utilities similar to Polished
-- A version of the wrapper for other front end frameworks
-- Integration with other popular libraries (not required for usage with other libraries but can make it easier)
-- Stricter types on top of Stitches types
-- A plugin that lets you put the CSS prop on any element (Emotion style)
-- Slots or something similar to slots
-
-Ideas / feature requests / contributions are welcome!
+Check out my other Stitches library - [stitches-purge-utils](https://github.com/orenelbaum/stitches-purge-utils) (also in early development).
+More libraries coming soon (static extraction, Tailwind utils).
