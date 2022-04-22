@@ -1,3 +1,5 @@
+# Development is on hold until Modulz figure out if they want to continue maintaining Stitches. If they do they might already have their own static extraction solution, so this library might not be necessary. Either way if they continue maintaining Stiches I will consider working on this project again.
+
 # stitches-crochet
 
 Stitches Crochet is a set of general utilities for [Stitches](https://stitches.dev/) (not to be confused with [Stitches utils](https://stitches.dev/docs/utils)).
