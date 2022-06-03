@@ -1,4 +1,4 @@
-# Development is on hold until Modulz figure out if they want to continue maintaining Stitches.
+# This library is archived because Stitches entered maintnance mode.
 
 # stitches-crochet
 
